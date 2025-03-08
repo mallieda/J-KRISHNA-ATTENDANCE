@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>J KRISHNA ATTENDANCE SYSTEM</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div class="container">
+        <h2>J KRISHNA ATTENDANCE SYSTEM</h2>
+        
+        <label for="employeeName">Enter Your Name:</label>
+        <input type="text" id="employeeName" placeholder="Enter Name">
+        <button onclick="markAttendance()">Mark Attendance</button>
+
+        <h3>Attendance Records</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="attendanceTable"></tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<style>body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 50%;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input {
+    padding: 10px;
+    margin: 10px;
+    width: 80%;
+}
+
+button {
+    padding: 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+th {
+    background: #007bff;
+    color: white;
+}
+</style>
+<script>
+        function deleteRow(button) {
+            let row = button.parentNode.parentNode; // Get the parent row
+            row.parentNode.removeChild(row); // Remove the row from the table
+        }
+    
+   
+// Function to mark attendance
+    function markAttendance() {
+        let name = document.getElementById("employeeName").value;
+        if (name.trim() === "") {
+            alert("Please enter your name!");
+            return;
+        }
+    
+        let now = new Date();
+        let date = now.toLocaleDateString();
+        let time = now.toLocaleTimeString();
+    
+        let attendanceRecord = { name, date, time };
+       
+    
+        // Get existing records from localStorage
+        let records = JSON.parse(localStorage.getItem("attendanceRecords")) || [];
+    
+        // Add new record
+        records.push(attendanceRecord);
+        localStorage.setItem("attendanceRecords", JSON.stringify(records));
+    
+        // Update the table
+        displayRecords();
+    }
+    
+    // Function to display attendance records
+    function displayRecords() {
+
+     
+        let records = JSON.parse(localStorage.getItem("attendanceRecords")) || [];
+        let tableBody = document.getElementById("attendanceTable");
+    
+        tableBody.innerHTML = "";
+        records.forEach(record => {
+            let row = `<tr> 
+                          <td>${record.name}</td>
+                          <td>${record.date}</td>
+                          <td>${record.time}</td>
+                            <td><input type="button" value="Delete" onclick="deleteRow(this)"></td>
+  </tr>
+                       </tr>`;
+
+            tableBody.innerHTML += row; 
+        });
+    }
+    
+    // Display records on page load
+    window.onload = displayRecords;
+    function deleteRow(button) {
+    let row = button.parentNode.parentNode; // Get the parent row
+    let name = row.cells[0].textContent; // Get the name from the row
+    let date = row.cells[1].textContent; // Get the date from the row
+    let time = row.cells[2].textContent; // Get the time from the row
+
+    // Remove from localStorage
+    let records = JSON.parse(localStorage.getItem("attendanceRecords")) || [];
+    let updatedRecords = records.filter(record => !(record.name === name && record.date === date && record.time === time));
+
+    localStorage.setItem("attendanceRecords", JSON.stringify(updatedRecords));
+
+    // Remove the row from the table
+    row.parentNode.removeChild(row);
+
+}
+
+    </script>
+
+    <style>
+        a {
+          text-decoration: none;
+          display: inline-block;
+          padding: 10px 18px;
+        }
+        
+        a:hover {
+            background: #007bff;
+            color: white;
+        }
+        
+        .previous {
+            background: #007bff;
+            color: white;
+        }
+        
+        .next {
+            background: #007bff;
+            color: white;
+        }
+        
+        .round {
+          border-radius: 100%;
+        }
+        </style>
+        </head>
+        <body>
+        
+
+
+       <h2> <a href="index1.html" class="Next">Next &raquo;</a></h2>
+        
+          
+        </body>
+        </html> 
+        
+    
